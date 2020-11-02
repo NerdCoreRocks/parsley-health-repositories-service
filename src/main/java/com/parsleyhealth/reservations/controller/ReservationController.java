@@ -1,6 +1,7 @@
 package com.parsleyhealth.reservations.controller;
 
 import com.parsleyhealth.reservations.dto.ReservationDto;
+import com.parsleyhealth.reservations.dto.TimeSlotAvailableDto;
 import com.parsleyhealth.reservations.dto.TimeSlotDto;
 import com.parsleyhealth.reservations.service.ReservationService;
 import java.util.Set;
@@ -18,15 +19,16 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 // TODO: Strip seconds from times OR throw exception when seconds used in times for DTOs
-// TODO: Add user friendly exception handling for errors occurring outside of mapping methods
+// TODO: Add user friendly messages for all errors
 // TODO: Reformat to include concept of users which contain reservations
 // TODO: Add JWT Authorization and endpoint to retrieve Bearer Token for users
 // TODO: Add paging
-// TODO: Add new endpoints for retrieving overlapping reservations (to make it easier to delete)
+// TODO: Add new endpoints for retrieving overlapping reservations (to make it easier to delete when conflict)
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(path = "/api/v0/reservations")
 public class ReservationController {
+
   @NonNull
   private final ReservationService reservationService;
 
@@ -38,7 +40,7 @@ public class ReservationController {
 
   @PostMapping(path = "/is-available")
   @ResponseBody
-  public boolean isAvailable(@NonNull @Valid @RequestBody TimeSlotDto timeSlotDto) {
+  public TimeSlotAvailableDto isReservationAvailable(@NonNull @Valid @RequestBody TimeSlotDto timeSlotDto) {
     return reservationService.isAvailable(timeSlotDto);
   }
 

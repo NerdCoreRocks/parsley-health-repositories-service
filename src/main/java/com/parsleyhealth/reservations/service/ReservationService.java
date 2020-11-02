@@ -3,6 +3,7 @@ package com.parsleyhealth.reservations.service;
 import com.parsleyhealth.reservations.database.ReservationRepository;
 import com.parsleyhealth.reservations.database.model.Reservation;
 import com.parsleyhealth.reservations.dto.ReservationDto;
+import com.parsleyhealth.reservations.dto.TimeSlotAvailableDto;
 import com.parsleyhealth.reservations.dto.TimeSlotDto;
 import java.time.ZonedDateTime;
 import java.util.List;
@@ -33,11 +34,14 @@ public class ReservationService {
         .collect(Collectors.toSet());
   }
 
-  public boolean isAvailable(TimeSlotDto timeSlotDto) {
-    return !overlappingReservationExists(timeSlotDto);
+  public TimeSlotAvailableDto isAvailable(@NonNull TimeSlotDto timeSlotDto) {
+    boolean isAvailable = !overlappingReservationExists(timeSlotDto);
+    return TimeSlotAvailableDto.builder()
+        .isAvailable(isAvailable)
+        .build();
   }
 
-  public ReservationDto create(TimeSlotDto timeSlotDto) {
+  public ReservationDto create(@NonNull TimeSlotDto timeSlotDto) {
     if (overlappingReservationExists(timeSlotDto)) {
       throw new ResponseStatusException(HttpStatus.BAD_REQUEST, String
           .format("Existing reservation(s) conflict with startTime [%s] and duration [%s]",
@@ -56,9 +60,14 @@ public class ReservationService {
     return conversionService.convert(savedReservation, ReservationDto.class);
   }
 
-  public ReservationDto delete(UUID id) {
+  public ReservationDto delete(@NonNull UUID id) {
     Reservation reservation = findById(id);
-    reservationRepository.deleteById(id);
+    try {
+      reservationRepository.deleteById(id);
+    } catch (RuntimeException ex) {
+      throw new RuntimeException(
+          String.format("Problem deleting reservation [%s]", reservation));
+    }
 
     return conversionService.convert(reservation, ReservationDto.class);
   }
@@ -69,7 +78,7 @@ public class ReservationService {
             String.format("Reservation with id [%s] not found", id)));
   }
 
-  private boolean overlappingReservationExists(TimeSlotDto timeSlotDto) {
+  private boolean overlappingReservationExists(@NonNull TimeSlotDto timeSlotDto) {
     ZonedDateTime startTime = timeSlotDto.getStartTime();
     ZonedDateTime endTime = timeSlotDto.getStartTime()
         .plusMinutes(timeSlotDto.getDuration());
