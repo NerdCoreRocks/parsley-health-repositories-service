@@ -2,6 +2,7 @@ plugins {
     id 'org.springframework.boot' version '2.3.2.RELEASE'
     id 'io.spring.dependency-management' version '1.0.8.RELEASE'
     id 'java'
+    id 'application'
 }
 
 group = 'com.parsleyhealth'
@@ -26,4 +27,12 @@ dependencies {
     testCompile('org.springframework.boot:spring-boot-starter-test')
     testCompileOnly 'org.projectlombok:lombok:1.18.16'
     testAnnotationProcessor 'org.projectlombok:lombok:1.18.16'
+}
+
+ext {
+    javaMainClass = "com.parsleyhealth.reservations.Application"
+}
+
+application {
+    mainClassName = javaMainClass
 }

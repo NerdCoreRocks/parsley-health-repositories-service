@@ -1,0 +1,73 @@
+{
+	"variables": [],
+	"info": {
+		"name": "Reservations",
+		"_postman_id": "736bfd70-23e3-c58d-8baa-f0d298da6cb6",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get All Reservations",
+			"request": {
+				"url": "localhost:8081/api/v0/reservations",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Is Reservation Available",
+			"request": {
+				"url": "localhost:8081/api/v0/reservations/is-available",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"startTime\": \"2020-11-20T11:00:00Z\",\n\t\"duration\": 60\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Create Reservation",
+			"request": {
+				"url": "localhost:8081/api/v0/reservations",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"startTime\": \"2020-11-20T11:00:00Z\",\n\t\"duration\": 60\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Reservation",
+			"request": {
+				"url": "localhost:8081/api/v0/reservations/7467b8af-5a79-42e9-9f00-d5ddc09cfbe0",
+				"method": "DELETE",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}
