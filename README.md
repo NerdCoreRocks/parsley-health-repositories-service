@@ -36,14 +36,11 @@ Plenty could be done to expand on this service to flesh it out.
 <!-- GETTING STARTED -->
 ## Getting Started
 
-This is an example of how you may give instructions on setting up your project locally.
-To get a local copy up and running follow these simple example steps.
-
 ### Prerequisites
 
-Docker (or MySQL 8+)
-Gradle
-Java 8+
+* Docker (or MySQL 8+)
+* Gradle
+* Java 8+
 
 ### Setup
  
